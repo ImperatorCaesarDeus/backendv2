@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/bootstrap.min.css')}}">
+    <style>
+      .header {
+  overflow: hidden;
+  background-color: black;
+}
+
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.vl {
+  border-left: 2px solid green;
+  height: 20%;
+  position: absolute;
+  left: 50%;
+  margin-left: -3px;
+  top: 20%;
+}
+input[type=number] {
+  width: 60%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-color: dodgerblue;
+}
+
+.overall {
+border-radius: 5px;
+border-color: #3e8e41;
+width: 50%;
+height:15em;
+margin:auto;
+}
+.page_type {
+border-radius: 5px;
+border-color: #3e8e41;
+float: left;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:30em;
+background-color:#ff7256;
+box-shadow: 0 35px 20px #777;
+}
+
+#pred_table {
+  float: left;
+margin-top: 1.8cm;
+border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 250px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+#pred_table  thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+#pred_table th,
+#pred_table td {
+    padding: 12px 15px;
+}
+#pred_table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#pred_table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+#pred_table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
+#supp_table {
+  margin-left: auto;
+  margin-right: auto;
+margin-top: 1.8cm;
+border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 250px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+#supp_table  thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+#supp_table th,
+#supp_table td {
+    padding: 12px 15px;
+}
+#supp_table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#supp_table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+#supp_table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+    </style>
+</head>
+<body onload="StartTraining()">
+  <div class="header">
+    <img height = 0.2% width=20%  src="https://otke-cdn.outokumpu.com/-/media/feature/identity/medium_horizontal_blue_rgb.png?h=143&w=561&revision=fbc0328f-0be5-43bd-81a3-8100c0258ffa&modified=20190916043102&webp=true">
+   </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="container" id="main_container">
+      <a href="{{ url_for('index') }}">
+        <img style="float: left;margin-top: 0.5cm;" height = 0.2% width=2%  src="static/cancel2.png"></a>
+        <h1 style="text-align: center;color: dodgerblue;margin-top:2cm;">Training for {{filter}} heirarchy</h1>
+        <br><br>
+
+
+      <footer>
+        <p></p>
+      </footer>
+    </div> <!-- /container -->
+ <!-- JQuery JS -->
+ <script src="{{url_for('static', filename='jquery/jquery-3.1.1.min.js')}}"></script>
+<!-- Bootstrap JS -->
+<script src="{{url_for('static', filename='bootstrap/bootstrap.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+  connectionString = 'http://' + location.host
+  //connectionString = 'http://localhost:5000'
+  var socket = io(connectionString);
+
+  socket.on('connect', function(){
+        console.log("Connected...!", socket.connected)
+    });
+    
+
+
+  function StartTraining(){
+      socket.emit('start_training');
+  };
+
+  function download(id){
+    socket.emit('download',{id:id});
+    //   str1='static/data/'
+    // window.open(str1.concat(id,'.csv'));
+    //window.open('mysite.com/file3');
+  };
+
+  function SendData(){
+       var myVar = setInterval(function(){
+         socket.emit('check_status');
+    }, 120);
+  };
+
+    socket.on('status', function (data) {
+
+    containerElement = document.getElementById('main_container')
+    let parentElement = document.createElement('div');
+    parentElement.className="row";
+
+    let predElement = document.createElement('div');
+    predElement.className="col-md-4";
+    let plotElement = document.createElement('div');
+    plotElement.className="col-md-4";
+    let titleElement = document.createElement('div');
+    titleElement.className="row"
+    let supplyElement = document.createElement('div');
+    supplyElement.className="row"
+  
+    
+    appendTitleElement = parentElement.appendChild(titleElement);
+    appendPredElement = parentElement.appendChild(predElement);
+    appendPlotElement = parentElement.appendChild(plotElement);
+    appendSupplyElement = parentElement.appendChild(supplyElement);
+
+    
+    if(data.status==1){
+
+    dwnldButton = document.getElementById(data.fvar);
+    dwnldButton.style.backgroundColor='lightgrey';
+    //dwnldButton.disabled=true;
+    dwnldButton.innerText="Done";
+    dwnldButton.onclick= download(dwnldButton.id);
+
+    predTable = document.createElement('div');
+    appendPredTable = predElement.appendChild(predTable);
+    appendPredTable.innerHTML = data.table
+
+    predPlot = document.createElement('img');
+    predPlot.src=data.img_path;
+    predPlot.setAttribute("width", "250%")
+    appendPredPlot = plotElement.appendChild(predPlot);
+
+    SupplyTable = document.createElement('div');
+    appendSupplyTable = supplyElement.appendChild(SupplyTable);
+    appendSupplyTable.innerHTML = data.suptable
+
+    var elem = document.createElement("hr");
+    elem.setAttribute("width", "100%");
+    parentElement.appendChild(elem);
+
+    }
+    else{
+      predTitle = document.createElement('h2');
+      predTitle.className="col-md-4";
+      dwnldButton = document.createElement('button');
+      dwnldButton.id=data.fvar;
+      dwnldButton.className="col-md-4";
+      dwnldButton.style.cssFloat = 'right';
+      dwnldButton.style.marginTop = '0.7cm';
+      dwnldButton.style.backgroundColor='lightgreen';
+      dwnldButton.disabled=true;
+      appendPredTitle = titleElement.appendChild(predTitle);
+      appendDwnldButton = titleElement.appendChild(dwnldButton);
+      appendPredTitle.innerText = data.fvar;
+      appendDwnldButton.innerText="Running";
+    };
+    containerElement.appendChild(parentElement);
+  });
+
+</script>
+</body>
+</html>

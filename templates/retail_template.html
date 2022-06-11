@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/bootstrap.min.css')}}">
+    <style>
+      .header {
+  overflow: hidden;
+  background-color:white;
+}
+
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.industrial_block {
+border-radius: 5px;
+border-color: #3e8e41;
+float: left;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:5em;
+background-color:white;
+box-shadow: 0 35px 20px #777;
+}
+
+
+.header_button {
+  display: inline-block;
+  font-size: 24px;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: grey;
+  border: none;
+  box-shadow: 0 9px rgba(153, 153, 153, 0);
+  width:10em;
+}
+
+.industrial_block {
+border-radius: 5px;
+border-color: #3e8e41;
+float: left;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:5em;
+background-color:white;
+box-shadow: 0 35px 20px #777;
+}
+
+.retail_block{
+border-radius: 5px;
+border-color: #3e8e41;
+float: right;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:5em;
+background: white;
+box-shadow: 0 35px 20px #777;
+}
+
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  margin: -76px 0 0 -76px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }}
+
+    </style>
+</head>
+<body>
+  <div class="header">
+    <img height = 0.2% width=20%  src="static/Calumet_logo.png">
+   </div>
+   
+   <div id="loader" style="display:None;"><p style="font-size:22px; color:black; text-align: center;">Searching online.....</p></div>
+
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Welcome</h1>
+        <p></p>
+      </div>
+    </div>
+
+    <!-- {{ url_for('get_ind_prd_spec') }} -->
+
+    <div class="container" id="main_container">
+      <div class="row">
+        <a href="{{ url_for('index') }}"><img style="float: left;margin-top: 0.5cm;" height = 0.2% width=2%  src="static/cancel2.png"></a>
+        <h2 style="text-align: center;color: dodgerblue;">Retail Web Scrapper</h2>
+
+        <div>
+          <div class="industrial_block">
+              <br>
+              <h2 style="text-align:center;">Product</h2>
+            <div style="height:30%;text-align: center;">
+              <select id="prods" name="prod">
+                <option value="" disabled selected>Please select the product.&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</option>
+                {% for row in prods %}
+                    <option value="{{row}}">{{row}}</option>
+                    {% endfor %}
+          </select>
+        </div>
+    
+          </div>
+          <div class="retail_block">
+                  <br>
+                  <h2 style="text-align: center;">Retailer</h2>
+                  <div style="height:30%;text-align: center;">
+                    <select id="rets" name="ret">
+                      <option value="" disabled selected>Please select the retailer.&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</option>
+                      {% for row in ind_rets %}
+                          <option value={{row}}>{{row}}</option>
+                          {% endfor %}
+                </select>
+              </div>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <button style="align:center;margin-top: 1cm;" class="button" onclick="GetPrice()">Fetch</button>
+        </div>
+        <!-- border: 5px solid red; -->
+        <div id="main_block" class="row" style="display:none; height: 35em;margin:auto;margin-top:1cm;width:100%;">
+          <div class="col-md-4" style="height: 25em;margin-top:1cm;">
+            <h1 style="text-align: center;">Base Image</h1>
+            <img id="base_img_url" height = 200px src={{base_img_url}}>
+          </div>
+          <div class="col-md-4" style="height: 25em;margin-top:1cm;">
+            <h1 style="text-align: center;">Retailer Image</h1>
+            <img id="ret_img_url" height = 50%;style="margin-top:1cm;">
+          </div>
+          <div class="col-md-4" style="height: 25em;margin-top:1cm;">
+          <h1 id="stat" style="text-align: center;color: green;margin-top: 1cm;">{{status}}</h1>
+          <h2 id="price" style="margin-top: 2cm; text-align: center;">{{price}}</h2>
+        </div>
+      </div>
+
+      <footer>
+        <p></p>
+      </footer>
+    </div> <!-- /container -->
+
+ <!-- JQuery JS -->
+ <script src="{{url_for('static', filename='jquery/jquery-3.1.1.min.js')}}"></script>
+<!-- Bootstrap JS -->
+<script src="{{url_for('static', filename='bootstrap/bootstrap.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+<script>
+  connectionString = 'http://' + location.host
+  //connectionString = 'http://localhost:5000'
+  var socket = io(connectionString);
+
+
+  socket.on('connect', function(){
+        console.log("Connected...!", socket.connected)
+    });
+    
+function GetPrice(){
+  var prods = document.getElementById("prods").value;
+  var rets = document.getElementById("rets").value;
+  if ((prods && rets)!=""){
+    socket.emit('get_price',{prods:prods,rets:rets});
+    document.getElementById("loader").style.display = "block";
+  } else {
+    alert("Please choose both product and provider...");
+  }
+      
+  };
+
+  socket.on('status', function (data) {
+
+    document.getElementById("main_block").style.display="block";
+    document.getElementById("loader").style.display = "None";
+    document.getElementById("base_img_url").src=data.base_img_url;
+    document.getElementById("ret_img_url").src=data.ret_img_url;
+    document.getElementById("stat").innerHTML=data.status;
+    document.getElementById("price").innerHTML=data.price;
+
+
+  });
+
+</script>
+</body>
+</html>

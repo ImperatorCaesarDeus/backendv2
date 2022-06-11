@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/bootstrap.min.css')}}">
+    <style>
+      .header {
+  overflow: hidden;
+  background-color:white; 
+}
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #291bee;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 1px #999;
+  line-height: 12px;
+  width: 120px;
+  margin-top: 4px;
+  margin-right: 15px;
+  position:absolute;
+  top:0;
+  right:0;
+}
+
+.industrial_block {
+border-radius: 5px;
+border-color: #3e8e41;
+float: left;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:30em;
+background-color:#ff7256;
+box-shadow: 0 35px 20px #777;
+}
+
+
+.retail_block{
+border-radius: 5px;
+border-color: #3e8e41;
+float: right;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:30em;
+background: #fada5e;
+box-shadow: 0 35px 20px #777;
+}
+    </style>
+</head>
+<body>
+  <div class="header">
+    <img height = 0.2% width=20%  src="static/Calumet_logo.png">
+    <a class="button" href="{{ url_for('logout_page') }}">Logout</a>
+  </div>
+
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Welcome, {{ current_user.username }}</h1>
+        <p></p>
+      </div>
+    </div>
+    <div class="container">
+        <div>
+      <div class="industrial_block">
+          <br>
+          <p style="text-align:center;color:#411999;font-size:1.5em;text-transform: uppercase;font-weight: bold;text-shadow: 0 1px 2px rgba(black,.15);"></p>
+          <div style ="width:100%;margin-top:2em;text-align: center;">
+            <h1 style="background-color:orange">Industrial</h1>   
+          </div>
+          <div style ="width:100%;margin-top:8em;text-align: center;">
+            <!-- <a href="{{ url_for('train') }}"><h2 style="background-color:powderblue;">Scrapper</h2></a>      -->
+            <a href="{{ url_for('index') }}"><h2 style="background-color:powderblue;">Dashboard</h2></a>  
+            <a href="{{ url_for('index') }}"><h2 style="background-color:powderblue;">Pricing Tool</h2></a>  
+          </div>
+
+      </div>
+          <div class="retail_block">
+              <br>
+              <p style="text-align:center;color:#411999;font-size:1.5em;text-transform: uppercase;font-weight: bold;text-shadow: 0 1px 2px rgba(black,.15);"></p>
+              <div style ="width:100%;margin-top:2em;text-align: center;">
+                <h1 style="background-color:yellow">Retail</h1>   
+              </div>
+              <div style ="width:100%;margin-top:8em; text-align: center;">
+                <!-- <a href="{{ url_for('get_ret_prd_spec') }}"><h2 style="background-color:powderblue;">Scrapper</h2></a>    -->
+                <a href="{{ url_for('ret_dashboard') }}"><h2 style="background-color:powderblue;">Dashboard</h2></a>    
+                <a href="{{ url_for('scrapper_log') }}"><h2 style="background-color:powderblue;">Pricing Tool</h2></a>  
+          </div>
+          </div>
+      </div>
+        
+
+      </div>      
+      <footer>
+        <p></p>
+      </footer>
+    </div> <!-- /container -->
+ <!-- JQuery JS -->
+ <script src="{{url_for('static', filename='jquery/jquery-3.1.1.min.js')}}"></script>
+<!-- Bootstrap JS -->
+<script src="{{url_for('static', filename='bootstrap/bootstrap.min.js')}}"></script>
+</body>
+</html>

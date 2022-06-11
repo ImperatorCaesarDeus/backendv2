@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Flask React</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- styles -->
+      <style>
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
+}
+
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.header a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.header-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .header-right {
+    float: none;
+  }
+}
+
+@import "nib"
+
+$brace-color = #CCCC00;
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-smoothing: antialiased;
+  background-color: #ffffff;
+}
+
+.container {
+  padding: 25px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  }
+
+.document {
+  background-color: rgba(#fac564,.5);
+  padding: 40px 20px;
+  border-radius: 5px;
+}
+
+.document__content {
+  column-count: 1;
+  @media screen and (min-width:1200px) {
+    column-count: 2;
+  }
+  column-gap: 20px;
+  padding: 20px 0;
+  margin: 0 100px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #CCCC00;
+  text-shadow: 0 1px 2px rgba(black,.15);
+}
+
+p {
+  margin: 0 20px 20px;
+  font-size: 16px;
+  line-height: 1.5em;
+  color: lighten(black,20%);
+}
+
+.brace {
+  width: auto;
+  min-width: 35px;
+  padding-bottom: 20px;
+  font-size: 2em;
+  line-height: 2em;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 15px 15px;
+  border: none;
+  background-color: transparent;
+  background-image:
+    radial-gradient(circle at 0 0, rgba($brace-color,0) 14.5px, $brace-color 15.5px, $brace-color 19.5px, rgba($brace-color,0) 20.5px),
+    radial-gradient(circle at 35px 0, rgba($brace-color,0) 14.5px, $brace-color 15.5px, $brace-color 19.5px, rgba($brace-color,0) 20.5px);
+  background-size: 35px 20px;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  text-transform: lowercase;
+  font-style: italic;
+  color: $brace-color;
+  filter: drop-shadow(0 1px 1px rgba(black,.15));
+  overflow: visible;
+
+  &:before {
+    width: 50%;
+    border-top: 5px solid $brace-color;
+    border-left: 1px solid transparent; /* play with this until you like the look of it */
+    border-top-left-radius: 20% 30px;
+    height: 100%;
+    content: "";
+    absolute: top @height left -15px;
+    box-sizing: border-box;
+    margin-top: -5px;
+  }
+
+  &:after {
+    width: 50%;
+    border-top: 5px solid $brace-color;
+    border-right: 1px solid transparent; /* play with this until you like the look of it */
+    border-top-right-radius: 20% 30px;
+    height: 100%;
+    content: "";
+    absolute: top @height right -15px;
+    box-sizing: border-box;
+    margin-top: -5px;
+  }
+}
+select {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.overall {
+border-radius: 5px;
+border-color: #3e8e41;
+width: 50%;
+height:15em;
+margin:auto;
+}
+
+.page_type {
+border-radius: 5px;
+border-color: #3e8e41;
+float: left;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:30em;
+background-color:#ff7256;
+box-shadow: 0 35px 20px #777;
+}
+
+
+.content_type{
+border-radius: 5px;
+border-color: #3e8e41;
+float: right;
+margin: 0 1.5%;
+margin-top:3em;
+width: 47%;
+min-height:30em;
+background: #fada5e;
+box-shadow: 0 35px 20px #777;
+}
+
+</style>
+  </head>
+  <body>
+<div class="header">
+ <img height = 60px width=300px src="https://res.cloudinary.com/authoritas/image/upload/f_auto,q_auto/v1507734832/authoritaslogo_jpcyon.png">
+</div>
+  <div>
+      <br>
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+       <div class="overall">
+           <div style="text-align:center;">
+           <p style="font-size:5em;display:inline-block;margin-top:0.5em;color:#42c4d3;">{{total_mean_accuracy}}%</p>
+           <p style="display:inline-block;font-size:1em;">Overall Accuracy</p>
+               </div>
+</div>
+      <div>
+          <hr style="width:50%;">
+      <div class="page_type">
+          <br>
+          <p style="text-align:center;color:#411999;font-size:1.5em;text-transform: uppercase;font-weight: bold;text-shadow: 0 1px 2px rgba(black,.15);">Accuracy per Page Type</p>
+          <div style ="width:100%;margin-top:5em;"class="chart" id="ptypeaccuracygraph">
+              <script>
+        var graphs = {{ptype_plot | safe}};
+        Plotly.plot('ptypeaccuracygraph',graphs,{});
+    </script>
+          </div>
+
+      </div>
+          <div class="content_type">
+              <br>
+              <p style="text-align:center;color:#411999;font-size:1.5em;text-transform: uppercase;font-weight: bold;text-shadow: 0 1px 2px rgba(black,.15);">Accuracy per Content Type</p>
+              <div style ="width:100%;margin-top:5em;"class="chart" id="ctypeaccuracygraph">
+              <script>
+        var graphs = {{ctype_plot | safe}};
+        Plotly.plot('ctypeaccuracygraph',graphs,{});
+    </script>
+          </div>
+          </div>
+      </div>
+  </div>
+
+  </body>
+</html>
